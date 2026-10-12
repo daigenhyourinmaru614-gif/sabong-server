@@ -8,11 +8,10 @@ const path = require('path');
 const { WebSocketServer } = require('ws');
 
 const PORT = process.env.PORT || 3000;
-const GAME_FILE = path.join(__dirname, 'public', 'index.html');
+const GAME_FILE = [path.join(__dirname, 'public', 'index.html'), path.join(__dirname, 'index.html')].find(f => fs.existsSync(f)) || path.join(__dirname, 'index.html');
 const MAX_PLAYERS_PER_ROOM = 2;
 const MAX_MSG_BYTES = 256 * 1024;      // a bird is a few KB; this is generous
 const MAX_MSGS_PER_SEC = 60;           // flood protection
-const ROOM_IDLE_MS = 6 * 60 * 60 * 1000;
 
 const rooms = new Map();               // code -> Set<ws>
 const started = Date.now();
